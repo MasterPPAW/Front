@@ -27,7 +27,7 @@ export class AuthService {
 
   login(credentials: LoginRequest): Observable<AuthResponse> {
     console.log('Login request:', credentials);
-    return this.http.post<AuthResponse>(`${this.API_URL}/login`, credentials, { withCredentials: true })
+    return this.http.post<AuthResponse>(`${this.API_URL}/Auth/login`, credentials, { withCredentials: true })
       .pipe(
         tap(response => {
           console.log('Login response:', response);
@@ -37,7 +37,7 @@ export class AuthService {
   }
 
   register(userData: RegisterRequest): Observable<AuthResponse> {
-    console.log('Register request URL:', `${this.API_URL}/register`);
+    console.log('Register request URL:', `${this.API_URL}/Auth/register`);
     
     // Convert Date to ISO string and maintain property order
     const requestData = {
@@ -53,7 +53,7 @@ export class AuthService {
     
     console.log('Register request data:', JSON.stringify(requestData, null, 2));
     
-    return this.http.post<AuthResponse>(`${this.API_URL}/register`, requestData, { withCredentials: true })
+    return this.http.post<AuthResponse>(`${this.API_URL}/Auth/register`, requestData, { withCredentials: true })
       .pipe(
         tap(response => {
           console.log('Register response:', response);
@@ -65,7 +65,7 @@ export class AuthService {
   logout(): void {
     console.log('Logout request sent');
     // Call logout endpoint to clear server-side session
-    this.http.post(`${this.API_URL}/logout`, {}, { withCredentials: true })
+    this.http.post(`${this.API_URL}/Auth/logout`, {}, { withCredentials: true })
       .subscribe(() => {
         localStorage.removeItem(this.USER_KEY);
         this.currentUserSubject.next(null);
