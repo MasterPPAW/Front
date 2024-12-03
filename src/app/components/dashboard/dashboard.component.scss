@@ -251,16 +251,47 @@ mat-card {
       }
     }
   }
+
+  mat-card-actions {
+    display: flex;
+    justify-content: center;
+    padding: $spacing-unit;
+    margin: 0;
+  }
 }
 
 // Plan details styles
-.plan-details {
+.plan-description {
+  margin: 0 0 $spacing-unit;
+  line-height: 1.5;
+}
+
+.plan-exercises {
   overflow: hidden;
-  margin: $spacing-unit 0;
+  margin: 0;
   
-  p {
+  h3 {
+    margin: 0 0 ($spacing-unit / 2);
+    color: #3f51b5;
+    font-size: 1.1em;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
     margin: 0;
-    line-height: 1.5;
+
+    li {
+      padding: ($spacing-unit / 4) 0;
+      display: flex;
+      align-items: center;
+      
+      &:before {
+        content: '•';
+        color: #ff4081;
+        margin-right: $spacing-unit / 2;
+      }
+    }
   }
 }
 

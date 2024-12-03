@@ -75,14 +75,20 @@ import { VideoDialogComponent } from './video-dialog.component';
                 </mat-card-subtitle>
               </mat-card-header>
               <mat-card-content>
-                <div class="plan-details" [@expandCollapse]="expandedPlanId === plan.planId ? 'expanded' : 'collapsed'">
-                  <p>{{plan.description}}</p>
+                <p class="plan-description">{{plan.description}}</p>
+                <div class="plan-exercises" [@expandCollapse]="expandedPlanId === plan.planId ? 'expanded' : 'collapsed'">
+                  <h3>Plan Exercises:</h3>
+                  <ul>
+                    <li *ngFor="let exercise of planExercises[plan.planId]">
+                      {{exercise.name}}
+                    </li>
+                  </ul>
                 </div>
               </mat-card-content>
               <mat-card-actions>
                 <button mat-button color="primary" (click)="togglePlanDetails(plan)">
                   <mat-icon>{{expandedPlanId === plan.planId ? 'visibility_off' : 'visibility'}}</mat-icon>
-                  {{expandedPlanId === plan.planId ? 'Hide Details' : 'View Details'}}
+                  {{expandedPlanId === plan.planId ? 'Hide Exercises' : 'View Exercises'}}
                 </button>
                 <button mat-button color="accent">
                   <mat-icon>play_circle</mat-icon>
@@ -133,10 +139,6 @@ import { VideoDialogComponent } from './video-dialog.component';
                 </mat-chip-listbox>
               </mat-card-content>
               <mat-card-actions>
-                <button mat-button color="primary" *ngIf="exercise.videoUrl">
-                  <mat-icon>play_circle</mat-icon>
-                  Watch Video
-                </button>
                 <button mat-button color="accent">
                   <mat-icon>add</mat-icon>
                   Add to Plan
@@ -170,6 +172,7 @@ export class DashboardComponent implements OnInit {
   workoutPlans: WorkoutPlan[] = [];
   exercises: Exercise[] = [];
   expandedPlanId: number | null = null;
+  planExercises: { [key: number]: Exercise[] } = {};
 
   constructor(
     private authService: AuthService,
@@ -213,7 +216,23 @@ export class DashboardComponent implements OnInit {
   }
 
   togglePlanDetails(plan: WorkoutPlan): void {
-    this.expandedPlanId = this.expandedPlanId === plan.planId ? null : plan.planId;
+    if (this.expandedPlanId === plan.planId) {
+      this.expandedPlanId = null;
+    } else {
+      this.expandedPlanId = plan.planId;
+      this.loadPlanExercises(plan.planId);
+    }
+  }
+
+  loadPlanExercises(planId: number): void {
+    if (!this.planExercises[planId]) {
+      this.workoutService.getPlanExercises(planId).subscribe(
+        (exercises: Exercise[]) => {
+          this.planExercises[planId] = exercises;
+        },
+        (error: Error) => console.error('Error loading plan exercises:', error)
+      );
+    }
   }
 
   createNewPlan(): void {

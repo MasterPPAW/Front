@@ -23,4 +23,8 @@ export class WorkoutService {
   getWorkoutPlanDetails(planId: number): Observable<WorkoutPlan> {
     return this.http.get<WorkoutPlan>(`${this.API_URL}/workoutplans/${planId}`, { withCredentials: true });
   }
+
+  getPlanExercises(planId: number): Observable<Exercise[]> {
+    return this.http.get<Exercise[]>(`${this.API_URL}/WorkoutPlanExercises/plan/${planId}`, { withCredentials: true });
+  }
 }
