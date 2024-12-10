@@ -1,4 +1,5 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://proiect-api-demo.com:7098' // Replace with your production API URL
+    //apiUrl: 'https://localhost:7098'
+    apiUrl: 'https://proiect-api-demo.com:7098'
 };
