@@ -21,7 +21,7 @@
       <h2>Your Workout Plans</h2>
       <div class="plans-grid">
         <mat-card *ngFor="let plan of workoutPlans" class="plan-card" 
-                  [class]="plan.fitnessLevel?.toLowerCase()">
+                  [class]="plan.fitnessLevel.toLowerCase()">
           <mat-card-header>
             <mat-card-title>{{plan.name}}</mat-card-title>
             <mat-card-subtitle>
@@ -29,26 +29,26 @@
             </mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <p>{{plan.description}}</p>
+            <p class="plan-description">{{plan.description}}</p>
+            <div class="plan-exercises" [@expandCollapse]="expandedPlanId === plan.planId ? 'expanded' : 'collapsed'">
+              <h3>Plan Exercises:</h3>
+              <ul>
+                <li *ngFor="let exercise of planExercises[plan.planId]">
+                  {{exercise.name}}
+                </li>
+              </ul>
+            </div>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-button color="primary" (click)="viewPlanDetails(plan)">
-              <mat-icon>visibility</mat-icon>
-              View Details
+            <button mat-button color="primary" (click)="togglePlanDetails(plan)">
+              <mat-icon>{{expandedPlanId === plan.planId ? 'visibility_off' : 'visibility'}}</mat-icon>
+              {{expandedPlanId === plan.planId ? 'Hide Exercises' : 'View Exercises'}}
             </button>
             <button mat-button color="accent">
               <mat-icon>play_circle</mat-icon>
               Start Plan
             </button>
           </mat-card-actions>
-        </mat-card>
-
-        <!-- Add New Plan Card -->
-        <mat-card class="plan-card add-plan" (click)="createNewPlan()">
-          <mat-card-content class="add-content">
-            <mat-icon>add_circle_outline</mat-icon>
-            <span>Create New Plan</span>
-          </mat-card-content>
         </mat-card>
       </div>
     </section>
@@ -64,25 +64,26 @@
               {{exercise.category}} • {{exercise.duration}} min
             </mat-card-subtitle>
           </mat-card-header>
-          <img *ngIf="exercise.videoUrl" mat-card-image [src]="exercise.videoUrl" [alt]="exercise.name">
+          <div class="exercise-media" [class.no-video]="!exercise.videoUrl" 
+               (click)="exercise.videoUrl && openVideo(exercise)">
+            <div *ngIf="exercise.videoUrl" class="video-thumbnail">
+              <img [src]="getYouTubeThumbnail(exercise.videoUrl)" [alt]="exercise.name">
+              <div class="play-overlay">
+                <mat-icon>play_circle_filled</mat-icon>
+              </div>
+            </div>
+            <div *ngIf="!exercise.videoUrl" class="no-video-content">
+              <mat-icon>fitness_center</mat-icon>
+            </div>
+          </div>
           <mat-card-content>
             <p>{{exercise.description}}</p>
-            <mat-chip-list>
-              <mat-chip [class]="exercise.difficultyLevel?.toLowerCase()">
+            <mat-chip-listbox>
+              <mat-chip [class]="exercise.difficultyLevel.toLowerCase()">
                 {{exercise.difficultyLevel}}
               </mat-chip>
-            </mat-chip-list>
+            </mat-chip-listbox>
           </mat-card-content>
-          <mat-card-actions>
-            <button mat-button color="primary" *ngIf="exercise.videoUrl">
-              <mat-icon>play_circle</mat-icon>
-              Watch Video
-            </button>
-            <button mat-button color="accent">
-              <mat-icon>add</mat-icon>
-              Add to Plan
-            </button>
-          </mat-card-actions>
         </mat-card>
       </div>
     </section>
