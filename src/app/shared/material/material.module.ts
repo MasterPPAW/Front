@@ -14,6 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatRippleModule } from '@angular/material/core';
+import { FormsModule } from '@angular/forms'; // For ngModel in radio buttons
 
 const materialModules = [
   MatButtonModule,
@@ -30,7 +31,8 @@ const materialModules = [
   MatDialogModule,
   MatDividerModule,
   MatListModule,
-  MatRippleModule
+  MatRippleModule,
+  FormsModule
 ];
 
 @NgModule({

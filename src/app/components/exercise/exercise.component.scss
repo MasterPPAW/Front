@@ -22,12 +22,6 @@ $border-radius: 8px;
   .spacer {
     flex: 1 1 auto;
   }
-
-  .change-subscription-button {
-    margin-right: 10px !important; /* Add space between buttons */
-    font-weight: bold !important;
-    color: black; /* Text color */
-  }
 }
 
 // Content styles
@@ -466,4 +460,20 @@ mat-card {
   margin-right: 0.3125rem; /* Echivalent cu 5px */
   font-size: 1.5rem; /* Dimensiunea iconiței (aprox. 24px) */
   line-height: 1.5rem; /* Aliniere verticală corectă */
+}
+
+.back-button {
+  //background-color: #007bff; /* Primary color */
+  padding: 10px 20px; /* Padding */
+  border: 2px solid #0056b3; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth transition */
+
+  &:hover {
+    background-color: #0056b3 !important; /* Darker shade on hover */
+  }
+  margin-left: auto;
+  display: block;
 }

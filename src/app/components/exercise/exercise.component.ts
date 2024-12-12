@@ -8,6 +8,7 @@ import {SubscriptionService} from '../../services/subscription.service';
 import { Subscription } from '../../models/subscription.models';
 import { UserProfile } from '../../models/auth.models';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { 
   trigger, 
   state, 
@@ -26,10 +27,10 @@ import { MatChipsModule, MatChipListbox } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { VideoDialogComponent } from './video-dialog.component';
+import { VideoDialogComponent } from '../dashboard/video-dialog.component';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-exercise',
   standalone: true,
   imports: [
     CommonModule,
@@ -42,9 +43,10 @@ import { VideoDialogComponent } from './video-dialog.component';
     MatDividerModule,
     MatListModule,
     MatDialogModule,
+    MatChipListbox,
   ],
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  templateUrl: './exercise.component.html',
+  styleUrls: ['./exercise.component.scss'],
   animations: [
     trigger('expandCollapse', [
       state('expanded', style({ 
@@ -61,15 +63,17 @@ import { VideoDialogComponent } from './video-dialog.component';
     ])
   ]
 })
-export class DashboardComponent implements OnInit {
+export class ExerciseComponent implements OnInit {
   user: UserProfile | null = null;
   subscription: Subscription | null = null;
-  workoutPlans: WorkoutPlan[] = [];
+  public workoutPlan: WorkoutPlan | null = null;
   exercises: Exercise[] = [];
   expandedPlanId: number | null = null;
   planExercises: { [key: number]: Exercise[] } = {};
+  planId: number = 1;
 
   constructor(
+    private route: ActivatedRoute,
     private authService: AuthService,
     private workoutService: WorkoutService,
     private subscriptionService: SubscriptionService,
@@ -79,8 +83,9 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.planId = +this.route.snapshot.paramMap.get('planId')!;
     this.loadUserProfile();
-    this.loadWorkoutPlans();
+    this.loadWorkoutPlan();
     this.loadExercises();
     this.loadSubscription();
   }
@@ -98,15 +103,15 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  loadWorkoutPlans(): void {
-    this.workoutService.getWorkoutPlans().subscribe(
-      (plans: WorkoutPlan[]) => this.workoutPlans = plans,
-      (error: Error) => console.error('Error loading workout plans:', error)
+  loadWorkoutPlan(): void {
+    this.workoutService.getWorkoutPlan(this.planId).subscribe(
+      (plan: WorkoutPlan) => this.workoutPlan = plan,
+      (error: Error) => console.error('Error loading workout plan:', error)
     );
   }
 
   loadExercises(): void {
-    this.workoutService.getExercises().subscribe(
+    this.workoutService.getPlanExercises(this.planId).subscribe(
       (exercises: Exercise[]) => this.exercises = exercises,
       (error: Error) => console.error('Error loading exercises:', error)
     );
@@ -128,11 +133,12 @@ export class DashboardComponent implements OnInit {
   }
   
   togglePlanDetails(plan: WorkoutPlan): void {
-    this.router.navigate(['/exercises', plan.planId]);
-  }
-
-  openSubscriptionDialog(userId: number): void {
-    this.router.navigate(['/subscription', userId]);
+    if (this.expandedPlanId === plan.planId) {
+      this.expandedPlanId = null;
+    } else {
+      this.expandedPlanId = plan.planId;
+      this.loadPlanExercises(plan.planId);
+    }
   }
 
   loadPlanExercises(planId: number): void {
@@ -144,6 +150,11 @@ export class DashboardComponent implements OnInit {
         (error: Error) => console.error('Error loading plan exercises:', error)
       );
     }
+  }
+
+  createNewPlan(): void {
+    // TODO: Implement plan creation
+    console.log('Creating new plan...');
   }
 
   getYouTubeThumbnail(url: string): string {
@@ -167,6 +178,10 @@ export class DashboardComponent implements OnInit {
       maxWidth: '1200px',
       panelClass: 'video-dialog-container'
     });
+  }
+
+  goBackToDashboard(): void {
+    this.router.navigate(['/dashboard']);
   }
 
   logout(): void {

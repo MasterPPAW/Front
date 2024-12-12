@@ -39,8 +39,7 @@ export class RegisterComponent {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
       fitnessLevel: ['beginner', [Validators.required]],
-      newProperty1: [''],
-      newProperty2: ['']
+      isDeleted: [false, [Validators.required]]
     }, { validator: this.passwordMatchValidator });
   }
 
@@ -60,8 +59,7 @@ export class RegisterComponent {
         registrationDate: new Date(),
         fitnessLevel: this.registerForm.value.fitnessLevel,
         trialExpiration: null,
-        newProperty1: this.registerForm.value.newProperty1 || null,
-        newProperty2: this.registerForm.value.newProperty2 || null
+        isDeleted: this.registerForm.value.isDeleted
       };
 
       // Log the registration data being sent

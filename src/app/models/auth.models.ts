@@ -10,8 +10,7 @@ export interface RegisterRequest {
     registrationDate: Date;
     fitnessLevel: string;
     trialExpiration: null;
-    newProperty1?: string;
-    newProperty2?: string;
+    isDeleted: boolean;
 }
 
 export interface AuthResponse {
@@ -20,6 +19,7 @@ export interface AuthResponse {
 }
 
 export interface UserProfile {
+    userId: number;
     name: string;
     email: string;
     registrationDate: Date;

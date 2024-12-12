@@ -47,8 +47,7 @@ export class AuthService {
       registrationDate: userData.registrationDate.toISOString(),
       fitnessLevel: userData.fitnessLevel,
       trialExpiration: userData.trialExpiration,
-      newProperty1: userData.newProperty1,
-      newProperty2: userData.newProperty2
+      isDeleted: userData.isDeleted
     };
     
     console.log('Register request data:', JSON.stringify(requestData, null, 2));
