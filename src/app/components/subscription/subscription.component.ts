@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import {SubscriptionService} from '../../services/subscription.service';
-import { Subscription, SubscriptionForDisplay, SubscriptionForPost } from '../../models/subscription.models';
+import { SubscriptionForDisplay, SubscriptionForPost } from '../../models/subscription.models';
 import { UserProfile } from '../../models/auth.models';
-import { ActivatedRoute } from '@angular/router';
 import { 
   trigger, 
   state, 
@@ -61,8 +60,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 export class SubscriptionComponent implements OnInit {
   user: UserProfile | null = null;
   subscription: SubscriptionForPost | null = null;
+  currentSubscription: SubscriptionForDisplay | null = null;
+  subscriptionOptions: SubscriptionForDisplay[] = [];
+  upgradeButtonPressed = false;
 
-  subscriptionOptions = [
+  allSubscriptionOptions = [
     {
       title: 'Basic Plan',
       type: 'beginner',
@@ -101,7 +103,9 @@ export class SubscriptionComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUserProfile();
-    this.loadSubscription();
+    this.loadSubscription()
+    .then(() => this.chooseBetterSubscriptions(this.currentSubscription!, this.allSubscriptionOptions))
+    .catch((error: Error) => console.error('Error loading subscriptions first:', error));
   }
 
   loadUserProfile(): void {
@@ -117,13 +121,40 @@ export class SubscriptionComponent implements OnInit {
     );
   }
 
-  loadSubscription(): void {
-    this.subscriptionService.getSubscriptions(this.user?.userId || 1).subscribe(
-      (subscription: Subscription) => this.subscription = subscription,
-      (error: Error) => console.error('Error loading subscriptions:', error)
-    );
+  loadSubscription(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.subscriptionService.getSubscriptions(this.user?.userId || 1).subscribe(
+        (subscription: SubscriptionForPost) => {
+          this.subscription = subscription;
+          this.currentSubscription = this.findMatchingSubscription(subscription, this.allSubscriptionOptions);
+          resolve();
+        },
+        (error: Error) => {
+          console.error('Error loading subscriptions:', error)
+          reject(error);
+        }
+      );
+    });
   }
   
+  private findMatchingSubscription(userSubscription: SubscriptionForPost, options: SubscriptionForDisplay[]): SubscriptionForDisplay | null {
+    const subscriptionDuration = Math.round(
+      (new Date(userSubscription.endDate).getTime() - new Date(userSubscription.startDate).getTime()) /
+        (1000 * 60 * 60 * 24)
+    );
+  
+    return options.find(option => 
+      option.type.toLowerCase() === userSubscription.subscriptionType.toLowerCase() &&
+      option.duration === subscriptionDuration
+    ) || null;
+  }
+
+  private chooseBetterSubscriptions(userSubscription: SubscriptionForDisplay, options: SubscriptionForDisplay[]): void {
+    this.subscriptionOptions = options.filter(option => 
+      option.price > userSubscription.price
+    );
+  }
+
   selectSubscription(subscription: SubscriptionForDisplay): void {
     const sub: SubscriptionForPost = {
       userId: this.user!.userId,
@@ -137,14 +168,17 @@ export class SubscriptionComponent implements OnInit {
     this.subscriptionService.setSubscriptionData(sub);
 
     this.router.navigate(['/payment']);
+  }
 
-    // this.subscriptionService.postSubscription(sub).subscribe(
-    //   (updatedSubscription: SubscriptionForPost) => {
-    //     this.subscription = updatedSubscription;
-    //     console.log('Subscription updated:', updatedSubscription);
-    //   },
-    //   (error: Error) => console.error('Error updating subscription:', error)
-    // );
+  // Method to add one day to the given date
+  addOneDay(date: Date): string {
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + 2);
+    return newDate.toISOString().split('T')[0];
+  }
+
+  pressUpgradeButton(): void {
+    this.upgradeButtonPressed = !this.upgradeButtonPressed;
   }
 
   goBackToDashboard(): void {

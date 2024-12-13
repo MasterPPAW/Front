@@ -17,11 +17,35 @@
     <!-- Main Content -->
     <div class="dashboard-content">
       <!-- Featured Exercises Section -->
-      <button mat-raised-button class="back-button" (click)="goBackToDashboard()">Back to Plans</button>
-      <section class="subscriptions">
-        <h2>Subscriptions</h2>
+      <button mat-raised-button class="back-button" (click)="goBackToDashboard()">Back to Dashboard</button>
+
+      <section class="current-subscription" *ngIf="currentSubscription">
+        <h2>Your Current Subscription</h2>
         <div class="subscriptions-grid">
-          <mat-card *ngFor="let subscription of subscriptionOptions" class="subscription-card">
+          <mat-card class="subscription-card" [class]="currentSubscription.type.toLowerCase()">
+            <mat-card-header>
+              <mat-card-title>{{currentSubscription.title}}</mat-card-title>
+              <mat-card-subtitle>
+                {{currentSubscription.duration === 365 ? '1 year' : currentSubscription.duration + ' days'}} • {{currentSubscription.type}}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <p>{{currentSubscription.description}}</p>
+              <div class="price-action">
+                <span class="price">{{currentSubscription.price}} USD</span>
+                <span *ngIf="subscription">Renews on: {{addOneDay(subscription.endDate)}}</span>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </section>
+      
+      <button mat-raised-button class="upgrade-button" (click)="pressUpgradeButton()">Upgrade subscription</button>
+
+      <section class="better-subscriptions" *ngIf="upgradeButtonPressed">
+        <h2>Upgrade options</h2>
+        <div class="subscriptions-grid">
+          <mat-card *ngFor="let subscription of subscriptionOptions" class="subscription-card" [class]="subscription.type.toLowerCase()">
             <mat-card-header>
               <mat-card-title>{{subscription.title}}</mat-card-title>
               <mat-card-subtitle *ngIf="subscription.duration == 365">1 year • {{subscription.type}}</mat-card-subtitle>

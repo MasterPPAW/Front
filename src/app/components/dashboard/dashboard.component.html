@@ -3,13 +3,14 @@
   <mat-toolbar color="primary" class="dashboard-header">
     <span>Welcome, {{user?.name || 'User'}}! 🏋️‍♂️</span>
     <span class="spacer"></span>
-    <button mat-raised-button color="accent" class="change-subscription-button" (click)="openSubscriptionDialog()">
-      Change Subscription
-    </button>
     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="User menu">
       <mat-icon>account_circle</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
+      <button mat-raised-button color="accent" class="change-subscription-button" (click)="openSubscriptionDialog()">
+        <mat-icon>subscriptions</mat-icon>
+        <span>Manage Subscription</span>
+      </button>
       <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
         <span>Logout</span>
@@ -49,40 +50,5 @@
           </mat-card>
         </div>
     </section>
-
-    <!-- Featured Exercises Section 
-    <section class="featured-exercises">
-      <h2>Featured Exercises</h2>
-      <div class="exercises-grid">
-        <mat-card *ngFor="let exercise of exercises" class="exercise-card">
-          <mat-card-header>
-            <mat-card-title>{{exercise.name}}</mat-card-title>
-            <mat-card-subtitle>
-              {{exercise.category}} • {{exercise.duration}} min
-            </mat-card-subtitle>
-          </mat-card-header>
-          <div class="exercise-media" [class.no-video]="!exercise.videoUrl" 
-               (click)="exercise.videoUrl && openVideo(exercise)">
-            <div *ngIf="exercise.videoUrl" class="video-thumbnail">
-              <img [src]="getYouTubeThumbnail(exercise.videoUrl)" [alt]="exercise.name">
-              <div class="play-overlay">
-                <mat-icon>play_circle_filled</mat-icon>
-              </div>
-            </div>
-            <div *ngIf="!exercise.videoUrl" class="no-video-content">
-              <mat-icon>fitness_center</mat-icon>
-            </div>
-          </div>
-          <mat-card-content>
-            <p>{{exercise.description}}</p>
-            <mat-chip-listbox>
-              <mat-chip [class]="exercise.difficultyLevel.toLowerCase()">
-                {{exercise.difficultyLevel}}
-              </mat-chip>
-            </mat-chip-listbox>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </section>-->
   </div>
 </div>
