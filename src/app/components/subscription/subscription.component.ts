@@ -94,7 +94,6 @@ export class SubscriptionComponent implements OnInit {
   ];
 
   constructor(
-    private route: ActivatedRoute,
     private authService: AuthService,
     private subscriptionService: SubscriptionService,
     private router: Router,
@@ -134,14 +133,18 @@ export class SubscriptionComponent implements OnInit {
       price: subscription.price,
       isDeleted: false
     }
+    
+    this.subscriptionService.setSubscriptionData(sub);
 
-    this.subscriptionService.postSubscription(sub).subscribe(
-      (updatedSubscription: SubscriptionForPost) => {
-        this.subscription = updatedSubscription;
-        console.log('Subscription updated:', updatedSubscription);
-      },
-      (error: Error) => console.error('Error updating subscription:', error)
-    );
+    this.router.navigate(['/payment']);
+
+    // this.subscriptionService.postSubscription(sub).subscribe(
+    //   (updatedSubscription: SubscriptionForPost) => {
+    //     this.subscription = updatedSubscription;
+    //     console.log('Subscription updated:', updatedSubscription);
+    //   },
+    //   (error: Error) => console.error('Error updating subscription:', error)
+    // );
   }
 
   goBackToDashboard(): void {

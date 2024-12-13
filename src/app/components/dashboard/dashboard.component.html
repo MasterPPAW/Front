@@ -3,7 +3,7 @@
   <mat-toolbar color="primary" class="dashboard-header">
     <span>Welcome, {{user?.name || 'User'}}! 🏋️‍♂️</span>
     <span class="spacer"></span>
-    <button mat-raised-button color="accent" class="change-subscription-button" (click)="openSubscriptionDialog(user!.userId)">
+    <button mat-raised-button color="accent" class="change-subscription-button" (click)="openSubscriptionDialog()">
       Change Subscription
     </button>
     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="User menu">

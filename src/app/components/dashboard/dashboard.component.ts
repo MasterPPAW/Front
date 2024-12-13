@@ -7,7 +7,6 @@ import { Exercise, WorkoutPlan } from '../../models/workout.models';
 import {SubscriptionService} from '../../services/subscription.service';
 import { Subscription } from '../../models/subscription.models';
 import { UserProfile } from '../../models/auth.models';
-import { DomSanitizer } from '@angular/platform-browser';
 import { 
   trigger, 
   state, 
@@ -75,7 +74,6 @@ export class DashboardComponent implements OnInit {
     private subscriptionService: SubscriptionService,
     private router: Router,
     private dialog: MatDialog,
-    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -131,8 +129,8 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/exercises', plan.planId]);
   }
 
-  openSubscriptionDialog(userId: number): void {
-    this.router.navigate(['/subscription', userId]);
+  openSubscriptionDialog(): void {
+    this.router.navigate(['/subscription']);
   }
 
   loadPlanExercises(planId: number): void {

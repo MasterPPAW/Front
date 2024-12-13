@@ -1,0 +1,505 @@
+// Variables
+$primary-color: #3f51b5;
+$accent-color: #ff4081;
+$background-color: #f5f5f5;
+$card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+$spacing-unit: 1rem;
+$border-radius: 8px;
+
+// Container styles
+.dashboard-container {
+  min-height: 100vh;
+  background-color: $background-color;
+}
+
+// Header styles
+.dashboard-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: $card-shadow;
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
+}
+
+// Content styles
+.dashboard-content {
+  padding: $spacing-unit * 2;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  h2 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: $spacing-unit * 2;
+    padding-bottom: $spacing-unit;
+    border-bottom: 2px solid $primary-color;
+  }
+}
+
+// Grid layouts
+.plans-grid, .exercises-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: $spacing-unit * 2;
+  margin-bottom: $spacing-unit * 3;
+}
+
+// Card styles
+mat-card {
+  border-radius: $border-radius;
+  box-shadow: $card-shadow;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  mat-card-header {
+    padding: $spacing-unit;
+    background: linear-gradient(45deg, rgba($primary-color, 0.1), rgba($accent-color, 0.1));
+    border-radius: $border-radius $border-radius 0 0;
+
+    ::ng-deep .mat-mdc-card-header-text {
+      margin-left: $spacing-unit;
+    }
+
+    mat-card-title {
+      font-size: 1.4rem;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    mat-card-subtitle {
+      color: rgba(0, 0, 0, 0.7);
+      margin: 4px 0 0 0;
+      line-height: 1.2;
+    }
+  }
+
+  mat-card-content {
+    padding: $spacing-unit;
+    
+    p {
+      color: #666;
+      line-height: 1.6;
+    }
+  }
+
+  mat-card-actions {
+    padding: $spacing-unit;
+    display: flex;
+    gap: $spacing-unit;
+    justify-content: center;
+    background-color: rgba($primary-color, 0.03);
+    border-radius: 0 0 $border-radius $border-radius;
+
+    button {
+      mat-icon {
+        margin-right: $spacing-unit / 2;
+      }
+    }
+  }
+}
+
+// Fitness level styles
+.beginner {
+  border-left: 4px solid #4CAF50;
+}
+
+.intermediate {
+  border-left: 4px solid #FFC107;
+}
+
+.advanced {
+  border-left: 4px solid #F44336;
+}
+
+// Add new plan card
+.add-plan {
+  background: linear-gradient(45deg, rgba($primary-color, 0.05), rgba($accent-color, 0.05));
+  border: 2px dashed rgba($primary-color, 0.3);
+  cursor: pointer;
+
+  .add-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    gap: $spacing-unit;
+
+    mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      color: $primary-color;
+    }
+
+    span {
+      font-size: 1.2rem;
+      color: $primary-color;
+    }
+  }
+
+  &:hover {
+    border-color: $primary-color;
+    background: linear-gradient(45deg, rgba($primary-color, 0.1), rgba($accent-color, 0.1));
+  }
+}
+
+// Exercise card specific styles
+.exercise-card {
+  .exercise-media {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    cursor: pointer;
+    background: linear-gradient(45deg, rgba($primary-color, 0.1), rgba($accent-color, 0.1));
+
+    &.no-video {
+      cursor: default;
+      .no-video-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        
+        mat-icon {
+          font-size: 64px;
+          width: 64px;
+          height: 64px;
+          color: rgba($primary-color, 0.3);
+        }
+      }
+    }
+
+    .video-thumbnail {
+      position: relative;
+      width: 100%;
+      height: 100%;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .play-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: all 0.3s ease;
+
+        mat-icon {
+          font-size: 64px;
+          width: 64px;
+          height: 64px;
+          color: white;
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+          transform: scale(0.9);
+          transition: transform 0.3s ease;
+        }
+      }
+
+      &:hover {
+        img {
+          transform: scale(1.05);
+        }
+        .play-overlay {
+          opacity: 1;
+          background: rgba(0, 0, 0, 0.5);
+          
+          mat-icon {
+            transform: scale(1);
+          }
+        }
+      }
+    }
+  }
+
+  mat-chip-listbox {
+    margin-top: $spacing-unit;
+    
+    mat-chip {
+      &.beginner {
+        background-color: #E8F5E9;
+        color: #2E7D32;
+      }
+      
+      &.intermediate {
+        background-color: #FFF8E1;
+        color: #F57F17;
+      }
+      
+      &.advanced {
+        background-color: #FFEBEE;
+        color: #C62828;
+      }
+    }
+  }
+
+  mat-card-actions {
+    display: flex;
+    justify-content: center;
+    padding: $spacing-unit;
+    margin: 0;
+  }
+}
+
+// Plan details styles
+.plan-description {
+  margin: 0 0 $spacing-unit;
+  line-height: 1.5;
+}
+
+.plan-exercises {
+  overflow: hidden;
+  margin: 0;
+  
+  h3 {
+    margin: 0 0 ($spacing-unit / 2);
+    color: #3f51b5;
+    font-size: 1.1em;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: ($spacing-unit / 4) 0;
+      display: flex;
+      align-items: center;
+      
+      &:before {
+        content: '•';
+        color: #ff4081;
+        margin-right: $spacing-unit / 2;
+      }
+    }
+  }
+}
+
+// Video dialog styles
+::ng-deep .video-dialog-container {
+  .mat-mdc-dialog-container {
+    padding: 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .dashboard-content {
+    padding: $spacing-unit;
+  }
+
+  .plans-grid, .exercises-grid {
+    grid-template-columns: 1fr;
+    gap: $spacing-unit;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+// Welcome card
+.welcome-card {
+  margin-bottom: 24px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  mat-card-header {
+    padding: 24px 24px 0;
+
+    mat-card-title {
+      font-size: 24px;
+      font-weight: 500;
+      color: #2d3748;
+    }
+
+    mat-card-subtitle {
+      font-size: 16px;
+      color: #718096;
+    }
+  }
+
+  mat-card-content {
+    padding: 24px;
+  }
+}
+
+// User info
+.user-info {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    mat-icon {
+      color: #667eea;
+      width: 32px;
+      height: 32px;
+      font-size: 32px;
+    }
+
+    .info-text {
+      display: flex;
+      flex-direction: column;
+
+      .label {
+        font-size: 14px;
+        color: #718096;
+      }
+
+      .value {
+        font-size: 16px;
+        font-weight: 500;
+        color: #2d3748;
+      }
+    }
+  }
+}
+
+// Quick actions
+.quick-actions {
+  mat-card {
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    mat-card-content {
+      padding: 24px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+
+      button {
+        flex: 1;
+        min-width: 200px;
+        height: 48px;
+        border-radius: 24px;
+        font-weight: 500;
+
+        mat-icon {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+}
+
+// User menu header
+.user-menu-header {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #f8fafc;
+
+  strong {
+    color: #2d3748;
+    font-size: 16px;
+  }
+
+  small {
+    color: #718096;
+    font-size: 14px;
+  }
+}
+
+// Dashboard toolbar
+.dashboard-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+// Toolbar spacer
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.plan-locked {
+  display: flex;
+  align-items: center;
+  min-height: 2rem; /* Asigură o înălțime minimă pentru conținut */
+  padding: 0.25rem 0; /* Adaugă spațiu vertical */
+  color: red;
+  font-weight: bold;
+  margin-top: 0.625rem; /* Echivalent cu 10px */
+}
+
+.plan-locked mat-icon {
+  margin-right: 0.3125rem; /* Echivalent cu 5px */
+  font-size: 1.5rem; /* Dimensiunea iconiței (aprox. 24px) */
+  line-height: 1.5rem; /* Aliniere verticală corectă */
+}
+
+.back-button {
+  //background-color: #007bff; /* Primary color */
+  padding: 10px 20px; /* Padding */
+  border: 2px solid #0056b3; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth transition */
+
+  &:hover {
+    background-color: #0056b3 !important; /* Darker shade on hover */
+  }
+  margin-left: auto;
+  display: block;
+}
+
+.subscriptions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.subscription-card {
+  text-align: center;
+
+  .price-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+
+    .price {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    button {
+      font-size: 14px;
+    }
+  }
+}
