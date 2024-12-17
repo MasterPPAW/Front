@@ -11,6 +11,10 @@
         <mat-icon>subscriptions</mat-icon>
         <span>Manage Subscription</span>
       </button>
+      <button mat-raised-button color="warn" class="delete-user-button" (click)="deleteUser()">
+        <mat-icon>delete_forever</mat-icon>
+        <span>Delete Account</span>
+      </button>
       <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
         <span>Logout</span>
@@ -45,6 +49,21 @@
               <button mat-button color="accent" *ngIf="!hasAccessToPlan(plan)">
                 <mat-icon>lock</mat-icon>
                 Locked
+              </button>
+            </mat-card-actions>
+          </mat-card>
+          <!-- Card pentru adăugarea unui nou plan -->
+          <mat-card class="add-plan">
+            <mat-card-header>
+              <mat-card-title>Add New Plan</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>Create a custom workout plan tailored to your needs.</p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button color="primary" (click)="navigateToAddPlan()">
+                <mat-icon>add</mat-icon>
+                Create Plan
               </button>
             </mat-card-actions>
           </mat-card>

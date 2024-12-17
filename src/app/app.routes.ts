@@ -5,6 +5,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ExerciseComponent } from './components/exercise/exercise.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import { WorkoutComponent } from './components/workout/workout.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -14,4 +15,5 @@ export const routes: Routes = [
   { path: 'exercises/:planId', component: ExerciseComponent },
   { path: 'subscription', component: SubscriptionComponent },
   { path: 'payment', component: PaymentComponent },
+  { path: 'workout', component: WorkoutComponent }
 ];

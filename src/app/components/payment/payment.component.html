@@ -17,9 +17,11 @@
     <!-- Main Content -->
     <div class="dashboard-content">
       <!-- Featured Exercises Section -->
-      <button mat-raised-button class="back-button" (click)="goBackToSubscription()">Back to Subscriptions</button>
       <section class="subscriptions">
-        <h2>Payment Methods</h2>
+        <div class="header-container">
+          <h2>Payment Methods</h2>
+          <button mat-raised-button class="back-button" (click)="goBackToSubscription()">Back to Subscriptions</button>
+        </div>
         <div class="subscriptions-grid">
           <mat-card *ngFor="let payment of paymentOptions" class="subscription-card">
             <mat-card-header>

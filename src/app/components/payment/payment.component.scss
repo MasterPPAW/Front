@@ -18,6 +18,8 @@ $border-radius: 8px;
   top: 0;
   z-index: 1000;
   box-shadow: $card-shadow;
+  background-color: #1976d2; /* Culoare solidă pentru fundal (înlocuiește cu orice culoare dorită) */
+  color: white;
   
   .spacer {
     flex: 1 1 auto;
@@ -503,3 +505,28 @@ mat-card {
     }
   }
 }
+
+.dashboard-content {
+  .subscriptions {
+    .header-container {
+      display: flex;
+      justify-content: space-between; /* Distributes space between items */
+      align-items: center; /* Vertically centers the items */
+      margin-bottom: 2rem; /* Optional, adds space below the header */
+    }
+
+    h2 {
+      font-size: 2rem; /* Adjust as needed */
+      font-weight: bold;
+      margin: 0; /* Remove default margin for better alignment */
+    }
+
+    button {
+      font-size: 1rem;
+      padding: 0.6rem 1.2rem;
+      text-transform: none; /* Optional: Prevents button text from being capitalized */
+      margin-left: 1rem; /* Optional: Adds some space between the title and the button */
+    }
+  }
+}
+

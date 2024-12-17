@@ -18,6 +18,8 @@ $border-radius: 8px;
   top: 0;
   z-index: 1000;
   box-shadow: $card-shadow;
+  background-color: #1976d2; /* Culoare solidă pentru fundal (înlocuiește cu orice culoare dorită) */
+  color: white;
   
   .spacer {
     flex: 1 1 auto;
@@ -39,6 +41,31 @@ $border-radius: 8px;
     border-bottom: 2px solid $primary-color;
   }
 }
+
+.dashboard-content {
+  .featured-exercises {
+    .header-container {
+      display: flex;
+      justify-content: space-between; /* Distributes space between items */
+      align-items: center; /* Vertically centers the items */
+      margin-bottom: 2rem; /* Optional, adds space below the header */
+    }
+
+    h2 {
+      font-size: 2rem; /* Adjust as needed */
+      font-weight: bold;
+      margin: 0; /* Remove default margin for better alignment */
+    }
+
+    button {
+      font-size: 1rem;
+      padding: 0.6rem 1.2rem;
+      text-transform: none; /* Optional: Prevents button text from being capitalized */
+      margin-left: 1rem; /* Optional: Adds some space between the title and the button */
+    }
+  }
+}
+
 
 // Grid layouts
 .plans-grid, .exercises-grid {
@@ -465,7 +492,7 @@ mat-card {
 .back-button {
   //background-color: #007bff; /* Primary color */
   padding: 10px 20px; /* Padding */
-  border: 2px solid #0056b3; /* Remove border */
+  border: 2px solid #f8fafc; /* Remove border */
   border-radius: 5px; /* Rounded corners */
   font-size: 16px; /* Font size */
   cursor: pointer; /* Pointer cursor on hover */
@@ -474,6 +501,24 @@ mat-card {
   &:hover {
     background-color: #0056b3 !important; /* Darker shade on hover */
   }
-  margin-left: auto;
-  display: block;
+  margin-left: 0.525rem;
+  //margin-bottom: 0.225rem;
+  //display: block;
+}
+
+.delete-button {
+  //background-color: #007bff; /* Primary color */
+  padding: 10px 20px; /* Padding */
+  border: 2px solid #b30009; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth transition */
+
+  &:hover {
+    background-color: #b3000075 !important; /* Darker shade on hover */
+  }
+  margin-left: 0.525rem;
+  //margin-bottom: 0.225rem;
+  //display: block;
 }

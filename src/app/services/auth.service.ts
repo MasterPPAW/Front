@@ -61,6 +61,10 @@ export class AuthService {
       );
   }
 
+  deleteUser(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.API_URL}/Auth/delete/${id}`, { withCredentials: true });
+  }
+
   logout(): void {
     console.log('Logout request sent');
     // Call logout endpoint to clear server-side session

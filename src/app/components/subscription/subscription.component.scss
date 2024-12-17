@@ -18,6 +18,8 @@ $border-radius: 8px;
   top: 0;
   z-index: 1000;
   box-shadow: $card-shadow;
+  background-color: #1976d2; /* Culoare solidă pentru fundal (înlocuiește cu orice culoare dorită) */
+  color: white;
   
   .spacer {
     flex: 1 1 auto;
@@ -143,7 +145,7 @@ $border-radius: 8px;
 .back-button {
   //background-color: #007bff; /* Primary color */
   padding: 10px 20px; /* Padding */
-  border: 2px solid #0056b3; /* Remove border */
+  border: 2px solid #f7f7f8; /* Remove border */
   border-radius: 5px; /* Rounded corners */
   font-size: 16px; /* Font size */
   cursor: pointer; /* Pointer cursor on hover */
@@ -266,4 +268,10 @@ mat-card {
 
 .better-subscriptions {
   margin-top: 20px; /* Optional: You can also add a top margin to the second section if you want additional space */
+  margin-bottom: 20px;
+}
+
+.worse-subscriptions {
+  margin-top: 20px; /* Optional: You can also add a top margin to the second section if you want additional space */
+  margin-bottom: 20px;
 }

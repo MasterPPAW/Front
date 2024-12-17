@@ -152,10 +152,21 @@ export class ExerciseComponent implements OnInit {
     }
   }
 
-  createNewPlan(): void {
-    // TODO: Implement plan creation
-    console.log('Creating new plan...');
+  deleteWorkoutPlan(): void {
+    // You can implement the logic to delete the workout plan here.
+    console.log('Delete Workout Plan:', this.workoutPlan?.planId);
+    // Call the service to delete the plan, and handle the response
+    this.workoutService.deleteWorkoutPlan(this.workoutPlan!.planId).subscribe(
+      (response) => {
+        console.log('Workout Plan Deleted:', response);
+        this.router.navigate(['/dashboard']); // Redirect to the dashboard after deletion
+      },
+      (error) => {
+        console.error('Error deleting workout plan:', error);
+      }
+    );
   }
+  
 
   getYouTubeThumbnail(url: string): string {
     const videoId = this.extractVideoId(url);

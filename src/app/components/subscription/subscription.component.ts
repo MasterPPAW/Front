@@ -61,8 +61,9 @@ export class SubscriptionComponent implements OnInit {
   user: UserProfile | null = null;
   subscription: SubscriptionForPost | null = null;
   currentSubscription: SubscriptionForDisplay | null = null;
-  subscriptionOptions: SubscriptionForDisplay[] = [];
-  upgradeButtonPressed = false;
+  subscriptionUpgrades: SubscriptionForDisplay[] = [];
+  subscriptionDowngrades: SubscriptionForDisplay[] = [];
+  downgradeButtonPressed = false;
 
   allSubscriptionOptions = [
     {
@@ -104,7 +105,10 @@ export class SubscriptionComponent implements OnInit {
   ngOnInit(): void {
     this.loadUserProfile();
     this.loadSubscription()
-    .then(() => this.chooseBetterSubscriptions(this.currentSubscription!, this.allSubscriptionOptions))
+    .then(() => {
+      this.chooseBetterSubscriptions(this.currentSubscription!, this.allSubscriptionOptions);
+      this.chooseWorseSubscriptions(this.currentSubscription!, this.allSubscriptionOptions);
+    })
     .catch((error: Error) => console.error('Error loading subscriptions first:', error));
   }
 
@@ -150,8 +154,14 @@ export class SubscriptionComponent implements OnInit {
   }
 
   private chooseBetterSubscriptions(userSubscription: SubscriptionForDisplay, options: SubscriptionForDisplay[]): void {
-    this.subscriptionOptions = options.filter(option => 
+    this.subscriptionUpgrades = options.filter(option => 
       option.price > userSubscription.price
+    );
+  }
+
+  private chooseWorseSubscriptions(userSubscription: SubscriptionForDisplay, options: SubscriptionForDisplay[]): void {
+    this.subscriptionDowngrades = options.filter(option => 
+      option.price < userSubscription.price
     );
   }
 
@@ -177,8 +187,8 @@ export class SubscriptionComponent implements OnInit {
     return newDate.toISOString().split('T')[0];
   }
 
-  pressUpgradeButton(): void {
-    this.upgradeButtonPressed = !this.upgradeButtonPressed;
+  pressDowngradeButton(): void {
+    this.downgradeButtonPressed = !this.downgradeButtonPressed;
   }
 
   goBackToDashboard(): void {

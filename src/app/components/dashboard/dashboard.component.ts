@@ -133,6 +133,10 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/subscription']);
   }
 
+  navigateToAddPlan(): void {
+    this.router.navigate(['/workout']);
+  }
+
   loadPlanExercises(planId: number): void {
     if (!this.planExercises[planId]) {
       this.workoutService.getPlanExercises(planId).subscribe(
@@ -165,6 +169,16 @@ export class DashboardComponent implements OnInit {
       maxWidth: '1200px',
       panelClass: 'video-dialog-container'
     });
+  }
+
+  deleteUser(): void {
+    this.authService.deleteUser(this.user!.userId).subscribe(
+      () => {
+        this.authService.logout();
+        this.router.navigate(['/login']);
+      },
+      (error: Error) => console.error('Error deleting user:', error)
+    );
   }
 
   logout(): void {

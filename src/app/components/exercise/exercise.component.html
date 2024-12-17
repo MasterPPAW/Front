@@ -3,6 +3,7 @@
     <mat-toolbar color="primary" class="dashboard-header">
       <span>Welcome, {{user?.name || 'User'}}! 🏋️‍♂️</span>
       <span class="spacer"></span>
+      <button mat-raised-button class="back-button" (click)="goBackToDashboard()">Back to Plans</button>
       <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="User menu">
         <mat-icon>account_circle</mat-icon>
       </button>
@@ -17,9 +18,11 @@
     <!-- Main Content -->
     <div class="dashboard-content">
       <!-- Featured Exercises Section -->
-      <button mat-raised-button class="back-button" (click)="goBackToDashboard()">Back to Plans</button>
       <section class="featured-exercises">
-        <h2>{{workoutPlan?.name}} Plan</h2>
+        <div class="header-container">
+          <h2>{{workoutPlan?.name}} Plan</h2>
+          <button mat-raised-button color="warn" class="delete-button" (click)="deleteWorkoutPlan()">Delete Plan</button>
+        </div>
         <div class="exercises-grid">
           <mat-card *ngFor="let exercise of exercises" class="exercise-card">
             <mat-card-header>
