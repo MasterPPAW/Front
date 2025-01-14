@@ -131,6 +131,7 @@ export class SubscriptionComponent implements OnInit {
         (subscription: SubscriptionForPost) => {
           this.subscription = subscription;
           this.currentSubscription = this.findMatchingSubscription(subscription, this.allSubscriptionOptions);
+          console.log("CurrentSubscription" + this.subscription.userId);
           resolve();
         },
         (error: Error) => {
@@ -146,7 +147,7 @@ export class SubscriptionComponent implements OnInit {
       (new Date(userSubscription.endDate).getTime() - new Date(userSubscription.startDate).getTime()) /
         (1000 * 60 * 60 * 24)
     );
-  
+   console.log(subscriptionDuration);
     return options.find(option => 
       option.type.toLowerCase() === userSubscription.subscriptionType.toLowerCase() &&
       option.duration === subscriptionDuration
